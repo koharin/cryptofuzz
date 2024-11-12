@@ -7,7 +7,7 @@
 #if !defined(SECP255K1_COMMIT_9d560f992db26612ce2630b194aef5f44d63a530)
 #include <src/scratch_impl.h>
 #endif
-#if defined(__i386__)
+#if defined(__i386__) || defined(__arm__)
 #include <src/int128_struct.h>
 #else
 #include <src/int128_native_impl.h>
@@ -71,8 +71,8 @@ void cryptofuzz_secp256k1_scalar_cmov(secp256k1_scalar *r, const secp256k1_scala
 }
 #endif
 
-unsigned int cryptofuzz_secp256k1_scalar_get_bits(const void *a, unsigned int offset, unsigned int count) {
-    return secp256k1_scalar_get_bits(a, offset, count);
+unsigned int cryptofuzz_secp256k1_scalar_get_bits_limb32(const void *a, unsigned int offset, unsigned int count) {
+    return secp256k1_scalar_get_bits_limb32(a, offset, count);
 }
 
 unsigned int cryptofuzz_secp256k1_scalar_get_bits_var(const void *a, unsigned int offset, unsigned int count) {

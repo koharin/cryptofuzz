@@ -25,6 +25,13 @@ extern "C" {
     int bn_is_perfect_square(int *out_perfect, const BIGNUM *n, BN_CTX *ctx);
     int BN_div_ct(BIGNUM *quotient, BIGNUM *remainder, const BIGNUM *numerator, const BIGNUM *divisor, BN_CTX *ctx);
     int BN_mod_ct(BIGNUM *r, const BIGNUM *a, const BIGNUM *m, BN_CTX *ctx);
+    int BN_mod_exp_mont_word(BIGNUM *r, BN_ULONG a, const BIGNUM *p,
+            const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *m_ctx);
+    int BN_mod_exp2_mont(BIGNUM *r, const BIGNUM *a1, const BIGNUM *p1,
+            const BIGNUM *a2, const BIGNUM *p2, const BIGNUM *m,
+            BN_CTX *ctx, BN_MONT_CTX *m_ctx);
+    int BN_mod_exp_simple(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
+            const BIGNUM *m, BN_CTX *ctx);
 }
 #endif
 
@@ -251,7 +258,14 @@ bool Mod::Run(Datasource& ds, Bignum& res, BignumCluster& bn, BN_CTX& ctx) const
             break;
     }
 
-    ret = true;
+    /* OpenSSL and derivatives deal with negative inputs
+     * to Mod differently than some other libraries.
+     * Compute the result but don't return it.
+     */
+    if (    !BN_is_negative(bn[0].GetPtr()) &&
+            !BN_is_negative(bn[1].GetPtr()) ) {
+        ret = true;
+    }
 
 end:
     return ret;
