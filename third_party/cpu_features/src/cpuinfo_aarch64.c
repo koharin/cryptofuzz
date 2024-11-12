@@ -38,7 +38,7 @@ static const CapabilityConfig kConfigs[] = {
   [AARCH64_PMULL] = {{AARCH64_HWCAP_PMULL, 0}, "pmull", &set_pmull},  //
   [AARCH64_SHA1] = {{AARCH64_HWCAP_SHA1, 0}, "sha1", &set_sha1},      //
   [AARCH64_SHA2] = {{AARCH64_HWCAP_SHA2, 0}, "sha2", &set_sha2},      //
-  [AARCH64_CRC32] {{AARCH64_HWCAP_CRC32, 0}, "crc32", &set_crc32},    //
+  [AARCH64_CRC32] = {{AARCH64_HWCAP_CRC32, 0}, "crc32", &set_crc32},    //
 };
 
 static const size_t kConfigsSize = sizeof(kConfigs) / sizeof(CapabilityConfig);
